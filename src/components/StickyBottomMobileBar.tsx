@@ -5,7 +5,7 @@ import { PACK_OPTIONS } from '../data/products';
 
 interface StickyBottomMobileBarProps {
   selectedVariant: ProductVariant;
-  selectedPack?: 'single' | 'double' | 'triple';
+  selectedPack?: 'single' | 'double';
   onOrderClick: () => void;
 }
 

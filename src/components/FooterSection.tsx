@@ -63,10 +63,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({ selectedVariant })
             </div>
             <div className="flex items-center gap-2 text-zinc-300">
               <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span className="dir-ltr">+212 6 00 00 00 00</span>
+              <span className="dir-ltr">+212 679-998628</span>
             </div>
             <a
-              href="https://wa.me/212600000000"
+              href="https://wa.me/212679998628"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-2 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold hover:bg-emerald-600/30 transition-colors"

@@ -17,7 +17,7 @@ import { ProductLaunchReveal } from './components/ProductLaunchReveal';
 export default function App() {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(PRODUCT_VARIANTS[0]);
   const [selectedSize, setSelectedSize] = useState<number>(42);
-  const [selectedPack, setSelectedPack] = useState<'single' | 'double' | 'triple'>('single');
+  const [selectedPack, setSelectedPack] = useState<'single' | 'double'>('single');
   const [completedOrder, setCompletedOrder] = useState<OrderData | null>(null);
 
   const scrollToOrderForm = () => {

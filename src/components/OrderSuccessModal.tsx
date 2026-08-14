@@ -100,7 +100,7 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
         {/* Action Buttons */}
         <div className="space-y-3">
           <a
-            href={`https://wa.me/212600000000?text=${encodeURIComponent(whatsappMessage)}`}
+            href={`https://wa.me/212679998628?text=${encodeURIComponent(whatsappMessage)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition-colors"

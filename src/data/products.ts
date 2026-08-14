@@ -207,14 +207,6 @@ export const PACK_OPTIONS: PackOption[] = [
     originalPrice: 1398,
     savings: 'وفّر 699 درهم (خصم هائل!)',
     popular: true
-  },
-  {
-    id: 'triple',
-    title: 'عرض العائلة (3 Pairs) 🎁',
-    subtitle: '3 أزواج بأحسن ثمن فالمغرب + هدايا مجانية',
-    price: 999,
-    originalPrice: 2097,
-    savings: 'وفّر 1098 درهم'
   }
 ];
 

@@ -22,8 +22,8 @@ interface ExpressOrderFormProps {
   onSelectVariant: (variant: ProductVariant) => void;
   selectedSize: number;
   onSelectSize: (size: number) => void;
-  selectedPack?: 'single' | 'double' | 'triple';
-  onSelectPack?: (pack: 'single' | 'double' | 'triple') => void;
+  selectedPack?: 'single' | 'double';
+  onSelectPack?: (pack: 'single' | 'double') => void;
   onSubmitOrder: (data: OrderData) => void;
 }
 
@@ -38,10 +38,10 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
   onSubmitOrder
 }) => {
   // Form State
-  const [internalPack, setInternalPack] = useState<'single' | 'double' | 'triple'>('single');
+  const [internalPack, setInternalPack] = useState<'single' | 'double'>('single');
   const selectedPack = propSelectedPack !== undefined ? propSelectedPack : internalPack;
 
-  const handlePackSelect = (packId: 'single' | 'double' | 'triple') => {
+  const handlePackSelect = (packId: 'single' | 'double') => {
     setInternalPack(packId);
     if (onSelectPack) {
       onSelectPack(packId);
@@ -156,7 +156,7 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
               <span className="text-xs text-amber-400 font-bold">توصيل مجاني لجميع العروض 🚚</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {PACK_OPTIONS.map((pack) => {
                 const isSelected = selectedPack === pack.id;
                 return (

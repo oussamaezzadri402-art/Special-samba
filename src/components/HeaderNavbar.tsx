@@ -77,7 +77,7 @@ export const HeaderNavbar: React.FC<HeaderNavbarProps> = ({
         {/* Action Buttons */}
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="https://wa.me/212600000000?text=%D8%B3%D9%84%D8%A7%D9%85%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B3%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%AD%D8%B0%D8%A7%D8%A1%20Spezial%20/%20Samba"
+            href="https://wa.me/212679998628?text=%D8%B3%D9%84%D8%A7%D9%85%20%D8%A8%D8%BA%D9%8A%D8%AA%20%D9%86%D8%B3%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%AD%D8%B0%D8%A7%D8%A1%20Spezial%20/%20Samba"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/30 transition-all duration-200"

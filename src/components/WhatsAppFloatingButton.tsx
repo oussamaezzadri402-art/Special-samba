@@ -9,7 +9,7 @@ interface WhatsAppFloatingButtonProps {
 export const WhatsAppFloatingButton: React.FC<WhatsAppFloatingButtonProps> = ({
   selectedVariant
 }) => {
-  const whatsappUrl = `https://wa.me/212600000000?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/212679998628?text=${encodeURIComponent(
     `السلام عليكم، بغيت نطلب حذاء ${selectedVariant.arabicName} العرض الخاص 399 درهم. واش متوفر فـ المقاس ديالي؟`
   )}`;
 

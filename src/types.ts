@@ -34,7 +34,7 @@ export interface ProductVariant {
 }
 
 export interface PackOption {
-  id: 'single' | 'double' | 'triple';
+  id: 'single' | 'double';
   title: string;
   subtitle: string;
   price: number;
@@ -50,7 +50,7 @@ export interface OrderData {
   address: string;
   variantId: string;
   size: number;
-  packType: 'single' | 'double' | 'triple';
+  packType: 'single' | 'double';
   secondVariantId?: string;
   secondSize?: number;
   notes?: string;
