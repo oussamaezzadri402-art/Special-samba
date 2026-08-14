@@ -1,0 +1,6 @@
+{
+  "name": "Spezial & Samba Moroccan Store",
+  "description": "Premium Moroccan e-commerce landing page for Spezial & Samba classic sneakers with Cash on Delivery and WhatsApp support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
