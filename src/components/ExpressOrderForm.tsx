@@ -14,7 +14,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { ProductVariant, PackOption, OrderData } from '../types';
-import { PACK_OPTIONS, MOROCCAN_CITIES } from '../data/products';
+import { PACK_OPTIONS } from '../data/products';
 
 interface ExpressOrderFormProps {
   variants: ProductVariant[];
@@ -50,7 +50,7 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
 
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
-  const [city, setCity] = useState(MOROCCAN_CITIES[0]);
+  const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -79,8 +79,8 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
       newErrors.phone = 'يرجى كتابة رقم هاتف مغربي صحيح (مثال: 0612345678)';
     }
 
-    if (!city) {
-      newErrors.city = 'يرجى اختيار المدينة';
+    if (!city.trim() || city.trim().length < 2) {
+      newErrors.city = 'يرجى كتابة المدينة أو المنطقة';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -91,16 +91,16 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
     setErrors({});
 
     const orderData: OrderData = {
-      fullName,
+      fullName: fullName.trim(),
       phone: phoneClean,
-      city,
-      address,
+      city: city.trim(),
+      address: address.trim(),
       variantId: selectedVariant.id,
       size: selectedSize,
       packType: selectedPack,
       secondVariantId: selectedPack !== 'single' ? secondVariantId : undefined,
       secondSize: selectedPack !== 'single' ? secondSize : undefined,
-      notes,
+      notes: notes.trim(),
       createdAt: new Date().toISOString()
     };
 
@@ -403,17 +403,20 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
                 <MapPin className="w-4 h-4 text-amber-400" />
                 <span>المدينة (Ville):</span>
               </label>
-              <select
+              <input
+                type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full bg-zinc-950 text-white text-sm p-3.5 rounded-xl border border-zinc-800 focus:border-amber-500 focus:outline-none"
-              >
-                {MOROCCAN_CITIES.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+                placeholder="مثال: الدار البيضاء، الرباط، مراكش، طنجة..."
+                className={`w-full bg-zinc-950 text-white text-sm p-3.5 rounded-xl border ${
+                  errors.city ? 'border-red-500 bg-red-950/10' : 'border-zinc-800 focus:border-amber-500'
+                } focus:outline-none transition-colors`}
+              />
+              {errors.city && (
+                <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                  <AlertCircle className="w-3.5 h-3.5" /> {errors.city}
+                </p>
+              )}
             </div>
 
             {/* Detailed Address */}
