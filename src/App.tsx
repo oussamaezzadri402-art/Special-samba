@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PRODUCT_VARIANTS } from './data/products';
 import { ProductVariant, OrderData } from './types';
 import { HeaderNavbar } from './components/HeaderNavbar';
@@ -14,6 +14,13 @@ import { StickyBottomMobileBar } from './components/StickyBottomMobileBar';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { ProductLaunchReveal } from './components/ProductLaunchReveal';
 import { submitOrderToGoogleSheets } from './services/googleSheets';
+import {
+  initMetaPixel,
+  trackViewContent,
+  trackInitiateCheckout,
+  trackAddToCart,
+  trackPurchase
+} from './services/metaPixel';
 
 export default function App() {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(PRODUCT_VARIANTS[0]);
@@ -21,15 +28,35 @@ export default function App() {
   const [selectedPack, setSelectedPack] = useState<'single' | 'double'>('single');
   const [completedOrder, setCompletedOrder] = useState<OrderData | null>(null);
 
+  // Initialize Meta Pixel once on load
+  useEffect(() => {
+    initMetaPixel();
+  }, []);
+
+  // Track ViewContent when viewing/changing shoe variant
+  useEffect(() => {
+    trackViewContent(selectedVariant, selectedPack);
+  }, [selectedVariant.id]);
+
   const scrollToOrderForm = () => {
+    trackInitiateCheckout(selectedVariant, selectedPack);
     const el = document.getElementById('order-form-section');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const handlePackChange = (pack: 'single' | 'double') => {
+    setSelectedPack(pack);
+    trackAddToCart(selectedVariant, pack);
+  };
+
   const handleOrderSubmit = (data: OrderData) => {
     setCompletedOrder(data);
+
+    // Track Meta Pixel Purchase event with deduplication protection
+    trackPurchase(data, selectedVariant);
+
     // Asynchronously transmit order data to Google Sheets endpoint if configured
     submitOrderToGoogleSheets(data, selectedVariant).catch((err) => {
       console.error('[Google Sheets Integration] Non-blocking submission error:', err);
@@ -80,7 +107,7 @@ export default function App() {
         selectedSize={selectedSize}
         onSelectSize={setSelectedSize}
         selectedPack={selectedPack}
-        onSelectPack={setSelectedPack}
+        onSelectPack={handlePackChange}
         onSubmitOrder={handleOrderSubmit}
       />
 
