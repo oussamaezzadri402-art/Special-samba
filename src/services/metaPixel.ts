@@ -15,23 +15,26 @@ declare global {
   }
 }
 
+// Fallback Meta Pixel ID for this project
+export const DEFAULT_PIXEL_ID = '3156735807845638';
+
 // Memory set to prevent duplicate Purchase events on React re-renders or hot reloads
 const processedPurchaseKeys = new Set<string>();
 
 /**
- * Reads the Meta Pixel ID from environment variables safely.
+ * Reads the Meta Pixel ID from environment variables, with a hard fallback to the configured ID.
  */
 export function getMetaPixelId(): string {
   const envId = import.meta.env.VITE_META_PIXEL_ID;
   if (typeof envId === 'string' && envId.trim() !== '') {
     return envId.trim();
   }
-  return '';
+  return DEFAULT_PIXEL_ID;
 }
 
 /**
  * Initializes Meta Pixel script once in the browser.
- * Safe fallback if no Pixel ID is present or if script loading fails.
+ * Injects https://connect.facebook.net/en_US/fbevents.js and calls fbq('init', pixelId) & fbq('track', 'PageView')
  */
 export function initMetaPixel(customId?: string): boolean {
   if (typeof window === 'undefined') {
@@ -40,11 +43,11 @@ export function initMetaPixel(customId?: string): boolean {
 
   const pixelId = customId || getMetaPixelId();
   if (!pixelId) {
-    // Pixel is not configured yet - silently continue
+    console.warn('[Meta Pixel] No Pixel ID found.');
     return false;
   }
 
-  // Prevent multiple script insertions
+  // If already initialized and loaded, don't re-inject
   if (window.fbq && window.fbq.loaded) {
     return true;
   }
@@ -81,10 +84,11 @@ export function initMetaPixel(customId?: string): boolean {
     if (window.fbq) {
       window.fbq('init', pixelId);
       window.fbq('track', 'PageView');
+      console.info(`🎯 [Meta Pixel] Successfully initialized with Pixel ID: ${pixelId} and sent initial PageView.`);
     }
     return true;
   } catch (err) {
-    console.debug('[Meta Pixel] Initialization notice:', err);
+    console.error('[Meta Pixel] Script initialization error:', err);
     return false;
   }
 }
@@ -98,17 +102,24 @@ function sendPixelEvent(eventName: string, params?: Record<string, unknown>) {
   const pixelId = getMetaPixelId();
   if (!pixelId) return;
 
+  // Make sure fbq is loaded or queued
+  if (!window.fbq) {
+    initMetaPixel(pixelId);
+  }
+
   try {
     if (window.fbq) {
       if (params) {
         window.fbq('track', eventName, params);
+        console.info(`📊 [Meta Pixel] Event tracked: "${eventName}"`, params);
       } else {
         window.fbq('track', eventName);
+        console.info(`📊 [Meta Pixel] Event tracked: "${eventName}"`);
       }
     }
   } catch (error) {
     // Non-blocking error handling to ensure checkout is never interrupted
-    console.debug(`[Meta Pixel] Event ${eventName} warning:`, error);
+    console.warn(`[Meta Pixel] Event "${eventName}" warning:`, error);
   }
 }
 

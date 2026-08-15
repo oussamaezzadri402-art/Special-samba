@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { ProductVariant, PackOption, OrderData } from '../types';
 import { PACK_OPTIONS } from '../data/products';
+import { trackInitiateCheckout } from '../services/metaPixel';
 
 interface ExpressOrderFormProps {
   variants: ProductVariant[];
@@ -360,6 +361,7 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                onFocus={() => trackInitiateCheckout(selectedVariant, selectedPack)}
                 placeholder="مثال: محمد براهيمي"
                 className={`w-full bg-zinc-950 text-white text-sm p-3.5 rounded-xl border ${
                   errors.fullName ? 'border-red-500 bg-red-950/10' : 'border-zinc-800 focus:border-amber-500'
@@ -382,6 +384,7 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                onFocus={() => trackInitiateCheckout(selectedVariant, selectedPack)}
                 placeholder="مثال: 0661234567"
                 className={`w-full bg-zinc-950 text-white text-sm p-3.5 rounded-xl border ${
                   errors.phone ? 'border-red-500 bg-red-950/10' : 'border-zinc-800 focus:border-amber-500'
@@ -407,6 +410,7 @@ export const ExpressOrderForm: React.FC<ExpressOrderFormProps> = ({
                 type="text"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
+                onFocus={() => trackInitiateCheckout(selectedVariant, selectedPack)}
                 placeholder="مثال: الدار البيضاء، الرباط، مراكش، طنجة..."
                 className={`w-full bg-zinc-950 text-white text-sm p-3.5 rounded-xl border ${
                   errors.city ? 'border-red-500 bg-red-950/10' : 'border-zinc-800 focus:border-amber-500'
