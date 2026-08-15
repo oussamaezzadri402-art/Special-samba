@@ -13,6 +13,7 @@ import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { StickyBottomMobileBar } from './components/StickyBottomMobileBar';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { ProductLaunchReveal } from './components/ProductLaunchReveal';
+import { submitOrderToGoogleSheets } from './services/googleSheets';
 
 export default function App() {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(PRODUCT_VARIANTS[0]);
@@ -29,6 +30,10 @@ export default function App() {
 
   const handleOrderSubmit = (data: OrderData) => {
     setCompletedOrder(data);
+    // Asynchronously transmit order data to Google Sheets endpoint if configured
+    submitOrderToGoogleSheets(data, selectedVariant).catch((err) => {
+      console.error('[Google Sheets Integration] Non-blocking submission error:', err);
+    });
   };
 
   return (
